@@ -8,7 +8,7 @@ mongoose.connect('http://localhost:27017/todoapp', {
     if (err)
         console.log('Unable to connect to the database');
     if (data)
-        console.log('Connected successfully to the database')
+        console.log('Connected successfully to the database...')
 });
 
 const addTodo = (todo, done) => {
