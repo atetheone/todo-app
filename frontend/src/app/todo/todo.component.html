@@ -1,4 +1,42 @@
-<p>todo works!</p>
-<div>
-    {{ msg }}
+<!-- <form class="insert-todo" (ngSubmit)="addTodo()">
+    <div class="input-div">
+        <input type="text" name="todoName" id="todoInput" required [(ngModel)]="todoName">
+    </div>
+    <button type="submit">Add +</button>
+</form>
+
+<div class="todos">
+    <div *ngIf="todos?.length === 0">
+        nothing to display
+    </div>
+    <div *ngIf="todos?.length !== 0">
+        <div class="todo-item" *ngFor="let todo of todos">
+            <div class="todo-name">{{ todo.description }}</div>
+            <div class="todo-status">{{ todo.done }}</div>
+        </div>
+    </div>
 </div>
+ -->
+
+ <div class="item">
+
+    <input [id]="todo.description" type="checkbox" (change)="todo.done = !todo.done" [checked]="todo.done" />
+    <label [for]="todo.description">{{todo.description}}</label>
+  
+    <div class="btn-wrapper" *ngIf="!editable">
+      <button class="btn" (click)="editable = !editable">Edit</button>
+      <button class="btn btn-warn" (click)="remove.emit()">Delete</button>
+    </div>
+  
+    <!-- This section shows only if user clicks Edit button -->
+    <div *ngIf="editable">
+      <input class="sm-text-input" placeholder="edit item"  [value]="todo.description" #editedItem (keyup.enter)="saveItem(editedItem.value)">
+  
+      <div class="btn-wrapper">
+        <button class="btn" (click)="editable = !editable">Cancel</button>
+        <button class="btn btn-save" (click)="saveItem(editedItem.value)">Save</button>
+      </div>
+    </div>
+  
+  </div>
+  
