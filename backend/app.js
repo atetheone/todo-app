@@ -1,32 +1,19 @@
-const mongoose = require('mongoose');
-const Todo = require('./todo-schema').todo;
+const Todo = require('./todo-schema');
 
-mongoose.connect('http://localhost:27017/todoapp', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }, (err, data) => {
-    if (err)
-        console.log('Unable to connect to the database');
-    if (data)
-        console.log('Connected successfully to the database...')
-});
+const addTodo = async (desc, status, done) => {
 
-const addTodo = (todo, done) => {
-
-    const todo_elt = Todo({
-        done: todo.done,
-        desc: todo.desc
+    const todo_elt = new Todo({
+        description: desc,
+        done: status
     });
-    todo_elt.save(
-        (err, data) => {
-            if (err) console.log({error: 'Error occured'});
-            else {
-                console.log({success: 'Successsss!! ' + JSON.stringify(data, null, 3)});
 
-                done(null, data);
-            }
+    todo_elt.save((err, data) => {
+        if (err) {
+            done(null, {error: err});
+        } if (data) {
+            done(null, data);
         }
-    );
+    });
 };
 
 const removeTodo = (id, done) => {
@@ -36,6 +23,16 @@ const removeTodo = (id, done) => {
 const updateTodo = (newTodo, done) => {
 
 };
+ 
+const  getTodos = async () => {
+    let todos;
+    try {
+        todos = await Todo.find();
+    } catch (err) {
+        console.log(err);
+    }
+    return todos;
+} 
 
 
-module.exports = { addTodo, removeTodo, updateTodo };
+module.exports = { addTodo, removeTodo, updateTodo, getTodos };
